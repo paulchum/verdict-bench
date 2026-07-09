@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://verdictlayer.dev/schemas/verdict-bench/task-result-1.0.0.schema.json",
+  "title": "Verdict Bench Tau task result",
+  "type": "object",
+  "required": ["schema_version", "run_id", "arm", "domain", "task_id", "trial", "termination_reason", "reward_info"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "run_id": {"type": "string"},
+    "arm": {"type": "string"},
+    "domain": {"type": "string"},
+    "task_id": {"type": "string"},
+    "trial": {"type": "integer", "minimum": 0},
+    "termination_reason": {},
+    "reward_info": {"type": ["object", "null"]},
+    "error": {"type": "string"}
+  },
+  "additionalProperties": true
+}

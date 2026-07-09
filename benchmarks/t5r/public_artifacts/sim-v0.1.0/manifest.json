@@ -1,0 +1,20 @@
+{
+  "arms": [
+    "GREEDY",
+    "BON-2",
+    "BON-4",
+    "EPS-0.35",
+    "RAW",
+    "CERT"
+  ],
+  "billable_calls": 0,
+  "cash_spend_authorized_usd": 0.0,
+  "label": "[SIM]",
+  "run_id": "sim-v0.1.0",
+  "schema_version": "1.0.0",
+  "stage": "simulation-fixture",
+  "status": "complete",
+  "trials": [
+    0
+  ]
+}

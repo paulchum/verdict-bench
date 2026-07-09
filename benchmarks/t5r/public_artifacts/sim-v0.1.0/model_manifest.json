@@ -1,0 +1,10 @@
+{
+  "requested_models": {
+    "actor": "openai/gpt-5-mini-2025-08-07",
+    "proxy": "openai/gpt-5-nano-2025-08-07",
+    "user": "openai/gpt-5-mini-2025-08-07"
+  },
+  "resolved_model_policy": "record_every_successful_response",
+  "schema_version": "1.0.0",
+  "snapshot_lock_required": true
+}

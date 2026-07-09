@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://verdictlayer.dev/schemas/verdict-bench/model-manifest-1.0.0.schema.json",
+  "title": "Verdict Bench model manifest",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "requested_models",
+    "resolved_model_policy",
+    "snapshot_lock_required"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "requested_models": {
+      "type": "object",
+      "required": ["actor", "user", "proxy"],
+      "properties": {
+        "actor": {"type": "string", "minLength": 1},
+        "user": {"type": "string", "minLength": 1},
+        "proxy": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "resolved_model_policy": {"const": "record_every_successful_response"},
+    "snapshot_lock_required": {"const": true}
+  },
+  "additionalProperties": false
+}

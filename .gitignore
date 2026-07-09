@@ -1,0 +1,10 @@
+.DS_Store
+.external/
+.pytest_cache/
+__pycache__/
+*.pyc
+*.egg-info/
+.venv/
+build/
+dist/
+benchmarks/t5r/runs/

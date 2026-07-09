@@ -1,0 +1,38 @@
+{
+  "source": {
+    "repository": "Verdict Layer formal reference implementation",
+    "reference_modules": ["tna_witness.py", "t4b_witness.py"],
+    "generated_on": "2026-07-09"
+  },
+  "pair_log_e": [
+    {"n_a": 10, "s_a": 1, "n_b": 10, "s_b": 9, "expected": 3.672404689256006},
+    {"n_a": 25, "s_a": 5, "n_b": 25, "s_b": 20, "expected": 5.032067665099785},
+    {"n_a": 60, "s_a": 0, "n_b": 60, "s_b": 60, "expected": 77.69702274041578},
+    {"n_a": 7, "s_a": 3, "n_b": 11, "s_b": 8, "expected": -2.7555600083273983}
+  ],
+  "half_null_log_e": [
+    {"n_candidate": 10, "s_candidate": 1, "n_incumbent": 10, "s_incumbent": 9, "expected": 9.493629702786658},
+    {"n_candidate": 25, "s_candidate": 5, "n_incumbent": 25, "s_incumbent": 20, "expected": 16.7454270239162},
+    {"n_candidate": 60, "s_candidate": 0, "n_incumbent": 60, "s_incumbent": 60, "expected": 119.28585357294658},
+    {"n_candidate": 7, "s_candidate": 3, "n_incumbent": 11, "s_incumbent": 8, "expected": -0.8813606524897419}
+  ],
+  "ledger_log_e": [
+    {"n": 1, "successes": 1, "boundary": 0.6, "expected": -0.18232155682217954},
+    {"n": 10, "successes": 10, "boundary": 0.6, "expected": 3.2638165103206895},
+    {"n": 25, "successes": 20, "boundary": 0.6, "expected": -0.014679546758151751},
+    {"n": 100, "successes": 100, "boundary": 0.6, "expected": 48.086830100222585},
+    {"n": 25, "successes": 10, "boundary": 0.6, "expected": -2.3025850929940455}
+  ],
+  "fixed_scale_w": [
+    {"n": 10, "successes": 1, "boundary": 0.8, "below": 9.612815302249663, "above": -1.8444397270569683},
+    {"n": 10, "successes": 9, "boundary": 0.8, "below": -1.8444397270569683, "above": -1.4775395867094625},
+    {"n": 25, "successes": 20, "boundary": 0.8, "below": -2.3025850929940455, "above": -2.3025850929940455},
+    {"n": 25, "successes": 25, "boundary": 0.8, "below": -2.3025850929940455, "above": 3.276003689180093}
+  ],
+  "floors": [
+    {"theta": 0.4, "delta": 0.02, "expected": 7},
+    {"theta": 0.4, "delta": 0.025, "expected": 6},
+    {"theta": 0.1, "delta": 0.02, "expected": 31},
+    {"theta": 0.4, "delta": 0.1, "expected": 4}
+  ]
+}

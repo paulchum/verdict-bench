@@ -1,0 +1,110 @@
+{
+  "declared_modulus": {
+    "L": 1.0,
+    "features": [
+      "min(turn,8)/8",
+      "mutation_seen"
+    ],
+    "metric": "l1",
+    "status": "declared_not_empirically_proven"
+  },
+  "keys": {
+    "sim-key-0": {
+      "retired": false,
+      "status": "EvidenceCensored",
+      "stream": {
+        "observations": 4,
+        "successes": 2
+      }
+    },
+    "sim-key-1": {
+      "retired": false,
+      "status": "Active",
+      "stream": {
+        "observations": 5,
+        "successes": 2
+      }
+    },
+    "sim-key-10": {
+      "retired": false,
+      "status": "ModulusTooCoarse",
+      "stream": {
+        "observations": 14,
+        "successes": 7
+      }
+    },
+    "sim-key-11": {
+      "retired": false,
+      "status": "Inhomogeneous",
+      "stream": {
+        "observations": 15,
+        "successes": 7
+      }
+    },
+    "sim-key-2": {
+      "retired": false,
+      "status": "ModulusTooCoarse",
+      "stream": {
+        "observations": 6,
+        "successes": 3
+      }
+    },
+    "sim-key-3": {
+      "retired": false,
+      "status": "Inhomogeneous",
+      "stream": {
+        "observations": 7,
+        "successes": 3
+      }
+    },
+    "sim-key-4": {
+      "retired": false,
+      "status": "EvidenceCensored",
+      "stream": {
+        "observations": 8,
+        "successes": 4
+      }
+    },
+    "sim-key-5": {
+      "retired": false,
+      "status": "Active",
+      "stream": {
+        "observations": 9,
+        "successes": 4
+      }
+    },
+    "sim-key-6": {
+      "retired": false,
+      "status": "ModulusTooCoarse",
+      "stream": {
+        "observations": 10,
+        "successes": 5
+      }
+    },
+    "sim-key-7": {
+      "retired": false,
+      "status": "Inhomogeneous",
+      "stream": {
+        "observations": 11,
+        "successes": 5
+      }
+    },
+    "sim-key-8": {
+      "retired": false,
+      "status": "EvidenceCensored",
+      "stream": {
+        "observations": 12,
+        "successes": 6
+      }
+    },
+    "sim-key-9": {
+      "retired": false,
+      "status": "Active",
+      "stream": {
+        "observations": 13,
+        "successes": 6
+      }
+    }
+  },
+  "seed": 300
+}

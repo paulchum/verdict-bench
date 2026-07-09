@@ -1,0 +1,464 @@
+{
+  "arms": [
+    {
+      "arm": "GREEDY",
+      "average_reward": 0.541666666667,
+      "cached_input_tokens": 0,
+      "exploration_cost_usd": 0,
+      "exploration_share": 0.0,
+      "exploration_tokens": 0,
+      "gross_price_sheet_cost_usd": 0.0176455,
+      "input_tokens": 23558,
+      "mean_cost_per_task_usd": 0.000735229167,
+      "median_exploration_rollout_tokens": null,
+      "missing_resolved_models": 0,
+      "missing_usage_calls": 0,
+      "output_tokens": 5878,
+      "proxy_cost_usd": 0,
+      "proxy_tokens": 0,
+      "reasoning_tokens": 0,
+      "refusals": 0,
+      "retirements": 0,
+      "success_ci95_high": 0.721086662688,
+      "success_ci95_low": 0.350748653589,
+      "success_rate": 0.541666666667,
+      "successes": 13,
+      "task_failures": 0,
+      "task_results": 24,
+      "total_tokens": 29436
+    },
+    {
+      "arm": "BON-2",
+      "average_reward": 0.583333333333,
+      "cached_input_tokens": 0,
+      "exploration_cost_usd": 0.0230935,
+      "exploration_share": 0.495650383487,
+      "exploration_tokens": 38516,
+      "gross_price_sheet_cost_usd": 0.0427705,
+      "input_tokens": 62194,
+      "mean_cost_per_task_usd": 0.001782104167,
+      "median_exploration_rollout_tokens": 1607.5,
+      "missing_resolved_models": 0,
+      "missing_usage_calls": 0,
+      "output_tokens": 15514,
+      "proxy_cost_usd": 0.0009515,
+      "proxy_tokens": 7956,
+      "reasoning_tokens": 0,
+      "refusals": 0,
+      "retirements": 0,
+      "success_ci95_high": 0.755323973902,
+      "success_ci95_low": 0.388346658652,
+      "success_rate": 0.583333333333,
+      "successes": 14,
+      "task_failures": 0,
+      "task_results": 24,
+      "total_tokens": 77708
+    },
+    {
+      "arm": "BON-4",
+      "average_reward": 0.625,
+      "cached_input_tokens": 0,
+      "exploration_cost_usd": 0.0241735,
+      "exploration_share": 0.495842967482,
+      "exploration_tokens": 40316,
+      "gross_price_sheet_cost_usd": 0.0449305,
+      "input_tokens": 65074,
+      "mean_cost_per_task_usd": 0.001872104167,
+      "median_exploration_rollout_tokens": 1682.5,
+      "missing_resolved_models": 0,
+      "missing_usage_calls": 0,
+      "output_tokens": 16234,
+      "proxy_cost_usd": 0.0009515,
+      "proxy_tokens": 7956,
+      "reasoning_tokens": 0,
+      "refusals": 0,
+      "retirements": 0,
+      "success_ci95_high": 0.788406324405,
+      "success_ci95_low": 0.427099624427,
+      "success_rate": 0.625,
+      "successes": 15,
+      "task_failures": 0,
+      "task_results": 24,
+      "total_tokens": 81308
+    },
+    {
+      "arm": "EPS-0.35",
+      "average_reward": 0.583333333333,
+      "cached_input_tokens": 0,
+      "exploration_cost_usd": 0.0252535,
+      "exploration_share": 0.496019220804,
+      "exploration_tokens": 42116,
+      "gross_price_sheet_cost_usd": 0.0470905,
+      "input_tokens": 67954,
+      "mean_cost_per_task_usd": 0.001962104167,
+      "median_exploration_rollout_tokens": 1757.5,
+      "missing_resolved_models": 0,
+      "missing_usage_calls": 0,
+      "output_tokens": 16954,
+      "proxy_cost_usd": 0.0009515,
+      "proxy_tokens": 7956,
+      "reasoning_tokens": 0,
+      "refusals": 0,
+      "retirements": 0,
+      "success_ci95_high": 0.755323973902,
+      "success_ci95_low": 0.388346658652,
+      "success_rate": 0.583333333333,
+      "successes": 14,
+      "task_failures": 0,
+      "task_results": 24,
+      "total_tokens": 84908
+    },
+    {
+      "arm": "RAW",
+      "average_reward": 0.625,
+      "cached_input_tokens": 0,
+      "exploration_cost_usd": 0.0263335,
+      "exploration_share": 0.496181136168,
+      "exploration_tokens": 43916,
+      "gross_price_sheet_cost_usd": 0.0492505,
+      "input_tokens": 70834,
+      "mean_cost_per_task_usd": 0.002052104167,
+      "median_exploration_rollout_tokens": 1832.5,
+      "missing_resolved_models": 0,
+      "missing_usage_calls": 0,
+      "output_tokens": 17674,
+      "proxy_cost_usd": 0.0009515,
+      "proxy_tokens": 7956,
+      "reasoning_tokens": 0,
+      "refusals": 0,
+      "retirements": 0,
+      "success_ci95_high": 0.788406324405,
+      "success_ci95_low": 0.427099624427,
+      "success_rate": 0.625,
+      "successes": 15,
+      "task_failures": 0,
+      "task_results": 24,
+      "total_tokens": 88508
+    },
+    {
+      "arm": "CERT",
+      "average_reward": 0.666666666667,
+      "cached_input_tokens": 0,
+      "exploration_cost_usd": 0.0274135,
+      "exploration_share": 0.496330394754,
+      "exploration_tokens": 45716,
+      "gross_price_sheet_cost_usd": 0.0514105,
+      "input_tokens": 73714,
+      "mean_cost_per_task_usd": 0.002142104167,
+      "median_exploration_rollout_tokens": 1907.5,
+      "missing_resolved_models": 0,
+      "missing_usage_calls": 0,
+      "output_tokens": 18394,
+      "proxy_cost_usd": 0.0009515,
+      "proxy_tokens": 7956,
+      "reasoning_tokens": 0,
+      "refusals": 24,
+      "retirements": 0,
+      "success_ci95_high": 0.820278096727,
+      "success_ci95_low": 0.467063168381,
+      "success_rate": 0.666666666667,
+      "successes": 16,
+      "task_failures": 0,
+      "task_results": 24,
+      "total_tokens": 92108
+    }
+  ],
+  "artifact_counts": {
+    "calls": 384,
+    "decisions": 144,
+    "events": 24,
+    "simulations": 144
+  },
+  "completion_matrix": {
+    "complete": false,
+    "expected_tasks_per_trial": 0,
+    "rows": [
+      {
+        "arm": "GREEDY",
+        "complete": false,
+        "completed": 0,
+        "expected": 0,
+        "missing": 0
+      },
+      {
+        "arm": "BON-2",
+        "complete": false,
+        "completed": 0,
+        "expected": 0,
+        "missing": 0
+      },
+      {
+        "arm": "BON-4",
+        "complete": false,
+        "completed": 0,
+        "expected": 0,
+        "missing": 0
+      },
+      {
+        "arm": "EPS-0.35",
+        "complete": false,
+        "completed": 0,
+        "expected": 0,
+        "missing": 0
+      },
+      {
+        "arm": "RAW",
+        "complete": false,
+        "completed": 0,
+        "expected": 0,
+        "missing": 0
+      },
+      {
+        "arm": "CERT",
+        "complete": false,
+        "completed": 0,
+        "expected": 0,
+        "missing": 0
+      }
+    ],
+    "trials": [
+      0
+    ]
+  },
+  "meter_reconciliation": {
+    "call_level_relative_error": 0.0,
+    "dashboard_evidence": null,
+    "dashboard_relative_error": null,
+    "gross_price_sheet_cost_usd": 0.253098,
+    "missing_resolved_models": 0,
+    "missing_usage_calls": 0,
+    "provider_cost_coverage": 1.0,
+    "provider_dashboard_cost_usd": null,
+    "provider_reported_cost_usd": 0.253098,
+    "status": "[SIM]_reconciled_within_2pct"
+  },
+  "paired_bootstrap": {
+    "comparisons": [
+      {
+        "baseline_arm": "GREEDY",
+        "cost_savings_usd": {
+          "ci95_high": -0.00137305,
+          "ci95_low": -0.00143995,
+          "draws": 10000,
+          "mean": -0.001406875,
+          "pairs": 24,
+          "seed": 300
+        },
+        "positive_savings_means_cert_is_cheaper": true,
+        "success_delta": {
+          "ci95_high": 0.416666666667,
+          "ci95_low": -0.166666666667,
+          "draws": 10000,
+          "mean": 0.125,
+          "pairs": 24,
+          "seed": 300
+        }
+      },
+      {
+        "baseline_arm": "BON-2",
+        "cost_savings_usd": {
+          "ci95_high": -0.00036,
+          "ci95_low": -0.00036,
+          "draws": 10000,
+          "mean": -0.00036,
+          "pairs": 24,
+          "seed": 300
+        },
+        "positive_savings_means_cert_is_cheaper": true,
+        "success_delta": {
+          "ci95_high": 0.375,
+          "ci95_low": -0.208333333333,
+          "draws": 10000,
+          "mean": 0.083333333333,
+          "pairs": 24,
+          "seed": 300
+        }
+      },
+      {
+        "baseline_arm": "BON-4",
+        "cost_savings_usd": {
+          "ci95_high": -0.00027,
+          "ci95_low": -0.00027,
+          "draws": 10000,
+          "mean": -0.00027,
+          "pairs": 24,
+          "seed": 300
+        },
+        "positive_savings_means_cert_is_cheaper": true,
+        "success_delta": {
+          "ci95_high": 0.291666666667,
+          "ci95_low": -0.208333333333,
+          "draws": 10000,
+          "mean": 0.041666666667,
+          "pairs": 24,
+          "seed": 300
+        }
+      },
+      {
+        "baseline_arm": "EPS-0.35",
+        "cost_savings_usd": {
+          "ci95_high": -0.00018,
+          "ci95_low": -0.00018,
+          "draws": 10000,
+          "mean": -0.00018,
+          "pairs": 24,
+          "seed": 300
+        },
+        "positive_savings_means_cert_is_cheaper": true,
+        "success_delta": {
+          "ci95_high": 0.375,
+          "ci95_low": -0.208333333333,
+          "draws": 10000,
+          "mean": 0.083333333333,
+          "pairs": 24,
+          "seed": 300
+        }
+      },
+      {
+        "baseline_arm": "RAW",
+        "cost_savings_usd": {
+          "ci95_high": -9e-05,
+          "ci95_low": -9e-05,
+          "draws": 10000,
+          "mean": -9e-05,
+          "pairs": 24,
+          "seed": 300
+        },
+        "positive_savings_means_cert_is_cheaper": true,
+        "success_delta": {
+          "ci95_high": 0.291666666667,
+          "ci95_low": -0.208333333333,
+          "draws": 10000,
+          "mean": 0.041666666667,
+          "pairs": 24,
+          "seed": 300
+        }
+      }
+    ],
+    "target_arm": "CERT"
+  },
+  "price_sheet": {
+    "as_of": "2026-07-09",
+    "currency": "USD",
+    "models": {
+      "openai/gpt-5-mini-2025-08-07": {
+        "cached_input_per_mtok": 0.025,
+        "input_per_mtok": 0.25,
+        "output_per_mtok": 2.0,
+        "source": "https://developers.openai.com/api/docs/models/gpt-5-mini"
+      },
+      "openai/gpt-5-nano-2025-08-07": {
+        "cached_input_per_mtok": 0.005,
+        "input_per_mtok": 0.05,
+        "output_per_mtok": 0.4,
+        "source": "https://developers.openai.com/api/docs/models/gpt-5-nano"
+      }
+    },
+    "schema_version": "1.0.0",
+    "unit": "per_million_tokens"
+  },
+  "proxy_calibration": {
+    "bins": [
+      {
+        "count": 1,
+        "high": 0.2,
+        "low": 0.0,
+        "mean_score": 0.1754,
+        "outcome_rate": 0
+      },
+      {
+        "count": 15,
+        "high": 0.4,
+        "low": 0.2,
+        "mean_score": 0.331613333333,
+        "outcome_rate": 0.266666666667
+      },
+      {
+        "count": 13,
+        "high": 0.6,
+        "low": 0.4,
+        "mean_score": 0.472953846154,
+        "outcome_rate": 0.384615384615
+      },
+      {
+        "count": 15,
+        "high": 0.8,
+        "low": 0.6,
+        "mean_score": 0.684253333333,
+        "outcome_rate": 0.466666666667
+      },
+      {
+        "count": 4,
+        "high": 1.0,
+        "low": 0.8,
+        "mean_score": 0.82605,
+        "outcome_rate": 0.75
+      }
+    ],
+    "brier_score": 0.2394295875,
+    "kind": "seeded_bernoulli_audit_calibration",
+    "note": "This checks the declared Bernoulliization mechanism, not calibration to hidden Tau criteria.",
+    "observations": 48
+  },
+  "publication_gate": {
+    "checks": {
+      "completion_matrix_complete": false,
+      "exploration_beats_greedy": true,
+      "four_trials_completed": false,
+      "median_exploration_rollout_at_least_1000_tokens": true,
+      "meter_reconciled_within_2pct": false,
+      "projected_adjudication_within_80pct_remaining_credits": false
+    },
+    "credit_projection": {
+      "awarded_credits_usd": null,
+      "maximum_allowed_fraction_of_remaining": 0.8,
+      "projected_adjudication_cost_usd": 5.821254,
+      "remaining_credits_usd": null,
+      "reserved_tasks": 138
+    },
+    "k_r1_outcome": null,
+    "reason": "Only frozen adjudication may issue K-R1 PASS, FAIL, or VOID.",
+    "status": "pilot_evidence_only_do_not_adjudicate"
+  },
+  "schema_version": "1.0.0",
+  "status": "[SIM] synthetic_fixture_not_empirical",
+  "t8": {
+    "declared_modulus": {
+      "L": 1.0,
+      "features": [
+        "min(turn,8)/8",
+        "mutation_seen"
+      ],
+      "metric": "l1",
+      "status": "declared_not_empirically_proven"
+    },
+    "key_status_counts": {
+      "Active": 3,
+      "EvidenceCensored": 3,
+      "Inhomogeneous": 3,
+      "ModulusTooCoarse": 3
+    },
+    "licensed_keys": 3,
+    "refused_keys": 9
+  },
+  "workload_validity": {
+    "best_exploring_arm": "CERT",
+    "best_exploring_success_rate": 0.666666666667,
+    "greedy_success_rate": 0.541666666667,
+    "greedy_vs_exploring_delta": 0.125,
+    "matched_quality": {
+      "cheapest_baseline": "BON-4",
+      "cheapest_baseline_cost_per_task_usd": 0.001872104167,
+      "margin": 0.05,
+      "matched_baselines": [
+        "BON-4",
+        "RAW"
+      ],
+      "rule": "baseline_success >= target_success - margin",
+      "target_arm": "CERT",
+      "target_success_rate": 0.666666666667
+    },
+    "median_exploration_rollout_tokens": 1757.0,
+    "pilot_flags": []
+  }
+}

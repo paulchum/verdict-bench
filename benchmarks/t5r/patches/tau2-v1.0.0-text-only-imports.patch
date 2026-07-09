@@ -1,0 +1,394 @@
+diff --git a/src/tau2/__init__.py b/src/tau2/__init__.py
+index 76a1f5c..b95c037 100644
+--- a/src/tau2/__init__.py
++++ b/src/tau2/__init__.py
+@@ -33,7 +33,6 @@ from tau2.registry import Registry, registry
+ from tau2.run import run_domain
+ from tau2.user.user_simulator import UserSimulator
+ from tau2.user.user_simulator_base import FullDuplexUser, HalfDuplexUser
+-from tau2.user.user_simulator_streaming import VoiceStreamingUserSimulator
+ from tau2.utils.display import ConsoleDisplay, MarkdownDisplay
+ 
+ # =============================================================================
+@@ -43,6 +42,11 @@ from tau2.utils.display import ConsoleDisplay, MarkdownDisplay
+ 
+ def __getattr__(name: str):
+     """Module-level __getattr__ for deprecation warnings."""
++    if name == "VoiceStreamingUserSimulator":
++        from tau2.user.user_simulator_streaming import VoiceStreamingUserSimulator
++
++        globals()[name] = VoiceStreamingUserSimulator
++        return VoiceStreamingUserSimulator
+     deprecated_aliases = {
+         "BaseAgent": ("HalfDuplexAgent", HalfDuplexAgent),
+         "LocalAgent": ("HalfDuplexAgent", HalfDuplexAgent),
+diff --git a/src/tau2/agent/__init__.py b/src/tau2/agent/__init__.py
+index 3c021ae..af72b85 100644
+--- a/src/tau2/agent/__init__.py
++++ b/src/tau2/agent/__init__.py
+@@ -20,9 +20,6 @@ from tau2.agent.base_agent import (
+     ValidAgentInputMessage,
+ )
+ from tau2.agent.llm_agent import LLMAgent, LLMAgentState, LLMGTAgent, LLMSoloAgent
+-from tau2.voice.audio_native.openai import OpenAIRealtimeProvider
+-from tau2.voice.audio_native.openai.provider import OpenAIVADMode
+-
+ # =============================================================================
+ # DEPRECATION ALIASES
+ # =============================================================================
+@@ -32,6 +29,15 @@ from tau2.voice.audio_native.openai.provider import OpenAIVADMode
+ 
+ def __getattr__(name: str):
+     """Module-level __getattr__ for deprecation warnings."""
++    if name in {"OpenAIRealtimeProvider", "OpenAIVADMode"}:
++        from tau2.voice.audio_native.openai import OpenAIRealtimeProvider
++        from tau2.voice.audio_native.openai.provider import OpenAIVADMode
++
++        globals().update(
++            OpenAIRealtimeProvider=OpenAIRealtimeProvider,
++            OpenAIVADMode=OpenAIVADMode,
++        )
++        return globals()[name]
+     deprecated_aliases = {
+         "BaseConversationParticipant": ("HalfDuplexParticipant", HalfDuplexParticipant),
+         "BaseStreamingParticipant": ("FullDuplexParticipant", FullDuplexParticipant),
+diff --git a/src/tau2/agent/base/__init__.py b/src/tau2/agent/base/__init__.py
+index ee00e27..9080fd7 100644
+--- a/src/tau2/agent/base/__init__.py
++++ b/src/tau2/agent/base/__init__.py
+@@ -39,9 +39,6 @@ from tau2.agent.base.streaming_utils import (
+     merge_audio_script_gold,
+ )
+ 
+-# Voice components
+-from tau2.agent.base.voice import VoiceMixin, VoiceState
+-
+ # =============================================================================
+ # DEPRECATION ALIASES
+ # =============================================================================
+@@ -63,6 +60,16 @@ def _deprecated_alias(old_name: str, new_name: str, new_class):
+     return __getattr__
+ 
+ 
++def __getattr__(name: str):
++    """Load voice-only components only when a caller requests them."""
++    if name in {"VoiceMixin", "VoiceState"}:
++        from tau2.agent.base.voice import VoiceMixin, VoiceState
++
++        globals().update(VoiceMixin=VoiceMixin, VoiceState=VoiceState)
++        return globals()[name]
++    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
++
++
+ # Deprecated aliases for backward compatibility
+ BaseConversationParticipant = HalfDuplexParticipant
+ BaseStreamingParticipant = FullDuplexParticipant
+diff --git a/src/tau2/registry.py b/src/tau2/registry.py
+index 9c49451..d0924ad 100644
+--- a/src/tau2/registry.py
++++ b/src/tau2/registry.py
+@@ -4,9 +4,6 @@ from typing import Callable, Dict, Optional
+ from loguru import logger
+ from pydantic import BaseModel
+ 
+-from tau2.agent.discrete_time_audio_native_agent import (
+-    create_discrete_time_audio_native_agent,
+-)
+ from tau2.agent.llm_agent import (
+     LLMGTAgent,
+     LLMSoloAgent,
+@@ -22,12 +19,6 @@ from tau2.domains.airline.environment import get_tasks as airline_domain_get_tas
+ from tau2.domains.airline.environment import (
+     get_tasks_split as airline_domain_get_tasks_split,
+ )
+-from tau2.domains.banking_knowledge.environment import (
+-    get_environment as knowledge_domain_get_environment,
+-)
+-from tau2.domains.banking_knowledge.environment import (
+-    get_tasks as knowledge_domain_get_tasks,
+-)
+ from tau2.domains.mock.environment import get_environment as mock_domain_get_environment
+ from tau2.domains.mock.environment import get_tasks as mock_domain_get_tasks
+ from tau2.domains.retail.environment import (
+@@ -56,7 +47,26 @@ from tau2.domains.telecom.environment import (
+ from tau2.environment.environment import Environment
+ from tau2.user.user_simulator import DummyUser, UserSimulator
+ from tau2.user.user_simulator_base import FullDuplexUser, HalfDuplexUser
+-from tau2.user.user_simulator_streaming import VoiceStreamingUserSimulator
++
++try:
++    from tau2.agent.discrete_time_audio_native_agent import (
++        create_discrete_time_audio_native_agent,
++    )
++    from tau2.user.user_simulator_streaming import VoiceStreamingUserSimulator
++except ModuleNotFoundError:
++    create_discrete_time_audio_native_agent = None
++    VoiceStreamingUserSimulator = None
++
++try:
++    from tau2.domains.banking_knowledge.environment import (
++        get_environment as knowledge_domain_get_environment,
++    )
++    from tau2.domains.banking_knowledge.environment import (
++        get_tasks as knowledge_domain_get_tasks,
++    )
++except ModuleNotFoundError:
++    knowledge_domain_get_environment = None
++    knowledge_domain_get_tasks = None
+ 
+ 
+ class RegistryInfo(BaseModel):
+@@ -283,9 +293,10 @@ try:
+     # User implementations
+     registry.register_user(UserSimulator, "user_simulator")
+     registry.register_user(DummyUser, "dummy_user")
+-    registry.register_user(
+-        VoiceStreamingUserSimulator, "voice_streaming_user_simulator"
+-    )
++    if VoiceStreamingUserSimulator is not None:
++        registry.register_user(
++            VoiceStreamingUserSimulator, "voice_streaming_user_simulator"
++        )
+ 
+     # Agent factories
+     registry.register_agent_factory(create_llm_agent, "llm_agent")
+@@ -300,10 +311,11 @@ try:
+         task_filter=LLMSoloAgent.check_valid_task,
+         metadata={"solo_mode": True},
+     )
+-    registry.register_agent_factory(
+-        create_discrete_time_audio_native_agent,
+-        "discrete_time_audio_native_agent",
+-    )
++    if create_discrete_time_audio_native_agent is not None:
++        registry.register_agent_factory(
++            create_discrete_time_audio_native_agent,
++            "discrete_time_audio_native_agent",
++        )
+     registry.register_domain(mock_domain_get_environment, "mock")
+     registry.register_tasks(mock_domain_get_tasks, "mock")
+ 
+@@ -338,8 +350,9 @@ try:
+         get_task_splits=telecom_domain_get_tasks_split,
+     )
+ 
+-    registry.register_domain(knowledge_domain_get_environment, "banking_knowledge")
+-    registry.register_tasks(knowledge_domain_get_tasks, "banking_knowledge")
++    if knowledge_domain_get_environment is not None:
++        registry.register_domain(knowledge_domain_get_environment, "banking_knowledge")
++        registry.register_tasks(knowledge_domain_get_tasks, "banking_knowledge")
+ 
+     logger.debug(
+         f"Default components registered successfully. Registry info: {json.dumps(registry.get_info().model_dump(), indent=2)}"
+diff --git a/src/tau2/runner/batch.py b/src/tau2/runner/batch.py
+index cc3628e..9b86a16 100644
+--- a/src/tau2/runner/batch.py
++++ b/src/tau2/runner/batch.py
+@@ -56,9 +56,6 @@ from tau2.user_simulation_voice_presets import COMPLEXITY_CONFIGS
+ from tau2.utils.display import ConsoleDisplay, Text
+ from tau2.utils.llm_utils import llm_log_mode, set_llm_log_dir, set_llm_log_mode
+ from tau2.utils.utils import DATA_DIR
+-from tau2.voice.synthesis.conversation_builder import generate_simulation_audio
+-from tau2.voice.utils.audio_debug import generate_audio_debug_info
+-
+ # Context variable to track current simulation_id for log filtering
+ # This ensures task-specific log handlers only receive their own messages
+ _current_simulation_id: ContextVar[Optional[str]] = ContextVar(
+@@ -73,7 +70,7 @@ _current_simulation_id: ContextVar[Optional[str]] = ContextVar(
+ _original_del = asyncio.base_events.BaseEventLoop.__del__
+ 
+ 
+-def _patched_del(self):
++def _patched_del(self, _original_del=_original_del):
+     try:
+         _original_del(self)
+     except AttributeError:
+@@ -214,6 +211,9 @@ def save_simulation_audio(
+         audio_native_config: Audio-native configuration.
+         audio_debug: Whether to generate debug audio analysis.
+     """
++    from tau2.voice.synthesis.conversation_builder import generate_simulation_audio
++    from tau2.voice.utils.audio_debug import generate_audio_debug_info
++
+     task_audio_dir = (
+         save_dir / "tasks" / f"task_{task.id}" / f"sim_{simulation_id}" / "audio"
+     )
+diff --git a/src/tau2/runner/build.py b/src/tau2/runner/build.py
+index d295b66..112d40a 100644
+--- a/src/tau2/runner/build.py
++++ b/src/tau2/runner/build.py
+@@ -6,6 +6,8 @@ Uses the registry for name resolution. Callers who want full control can skip
+ this layer and construct instances directly.
+ """
+ 
++from __future__ import annotations
++
+ import uuid
+ from copy import deepcopy
+ from pathlib import Path
+@@ -24,15 +26,10 @@ from tau2.data_model.simulation import (
+ from tau2.data_model.tasks import Task
+ from tau2.data_model.voice import SpeechComplexity, SynthesisConfig, VoiceSettings
+ from tau2.environment.environment import Environment
+-from tau2.orchestrator.full_duplex_orchestrator import FullDuplexOrchestrator
+ from tau2.orchestrator.orchestrator import Orchestrator
+ from tau2.registry import registry
+ from tau2.user.user_simulator import DummyUser, UserSimulator
+ from tau2.user.user_simulator_base import FullDuplexUser, HalfDuplexUser
+-from tau2.user.user_simulator_streaming import VoiceStreamingUserSimulator
+-from tau2.user_simulation_voice_presets import (
+-    get_or_load_task_voice_config,
+-)
+ 
+ # =============================================================================
+ # Low-level build functions (no RunConfig needed)
+@@ -220,6 +217,9 @@ def build_voice_user(
+     Returns:
+         A fully constructed VoiceStreamingUserSimulator.
+     """
++    from tau2.user.user_simulator_streaming import VoiceStreamingUserSimulator
++    from tau2.user_simulation_voice_presets import get_or_load_task_voice_config
++
+     if domain is None:
+         domain = environment.get_domain_name()
+ 
+@@ -443,6 +443,8 @@ def build_voice_orchestrator(
+         orchestrator = build_voice_orchestrator(config, tasks[0], seed=42)
+         result = run_simulation(orchestrator)
+     """
++    from tau2.orchestrator.full_duplex_orchestrator import FullDuplexOrchestrator
++
+     if simulation_id is None:
+         simulation_id = str(uuid.uuid4())
+     if seed is None:
+diff --git a/src/tau2/user/__init__.py b/src/tau2/user/__init__.py
+index 3491fb1..ed68de7 100644
+--- a/src/tau2/user/__init__.py
++++ b/src/tau2/user/__init__.py
+@@ -13,8 +13,6 @@ from tau2.user.user_simulator_base import (
+     UserState,
+     ValidUserInputMessage,
+ )
+-from tau2.user.user_simulator_streaming import VoiceStreamingUserSimulator
+-
+ # =============================================================================
+ # DEPRECATION ALIASES
+ # =============================================================================
+@@ -24,6 +22,11 @@ from tau2.user.user_simulator_streaming import VoiceStreamingUserSimulator
+ 
+ def __getattr__(name: str):
+     """Module-level __getattr__ for deprecation warnings."""
++    if name == "VoiceStreamingUserSimulator":
++        from tau2.user.user_simulator_streaming import VoiceStreamingUserSimulator
++
++        globals()[name] = VoiceStreamingUserSimulator
++        return VoiceStreamingUserSimulator
+     deprecated_aliases = {
+         "BaseUser": ("HalfDuplexUser", HalfDuplexUser),
+         "BaseStreamingUser": ("FullDuplexUser", FullDuplexUser),
+diff --git a/src/tau2/user/user_simulator.py b/src/tau2/user/user_simulator.py
+index 844acd3..e522327 100644
+--- a/src/tau2/user/user_simulator.py
++++ b/src/tau2/user/user_simulator.py
+@@ -3,7 +3,6 @@ from typing import Generic, Optional, Tuple, TypeVar
+ from loguru import logger
+ 
+ from tau2.agent.base.llm_config import LLMConfigMixin
+-from tau2.agent.base.voice import VoiceMixin, VoiceState
+ from tau2.data_model.audio import PCM_SAMPLE_RATE
+ from tau2.data_model.message import (
+     AssistantMessage,
+@@ -29,10 +28,37 @@ from tau2.user.user_simulator_base import (
+ )
+ from tau2.utils import DATA_DIR
+ from tau2.utils.llm_utils import generate
+-from tau2.voice.synthesis.audio_effects.noise_generator import (
+-    create_background_noise_generator,
+-)
+-from tau2.voice_config import resolve_background_noise_path
++try:
++    from tau2.agent.base.voice import VoiceMixin, VoiceState
++    from tau2.voice.synthesis.audio_effects.noise_generator import (
++        create_background_noise_generator,
++    )
++    from tau2.voice_config import resolve_background_noise_path
++except ModuleNotFoundError as exc:
++    _VOICE_IMPORT_ERROR = exc
++
++    class VoiceState:
++        """Import-time placeholder used when the optional voice extra is absent."""
++
++    class VoiceMixin:
++        @classmethod
++        def __class_getitem__(cls, _item):
++            return cls
++
++        def __init__(self, *_args, **_kwargs):
++            raise ModuleNotFoundError(
++                "Voice support requires the optional tau2-bench voice dependencies"
++            ) from _VOICE_IMPORT_ERROR
++
++    def create_background_noise_generator(*_args, **_kwargs):
++        raise ModuleNotFoundError(
++            "Voice support requires the optional tau2-bench voice dependencies"
++        ) from _VOICE_IMPORT_ERROR
++
++    def resolve_background_noise_path(*_args, **_kwargs):
++        raise ModuleNotFoundError(
++            "Voice support requires the optional tau2-bench voice dependencies"
++        ) from _VOICE_IMPORT_ERROR
+ 
+ GLOBAL_USER_SIM_GUIDELINES_DIR = DATA_DIR / "tau2" / "user_simulator"
+ 
+diff --git a/src/tau2/voice/__init__.py b/src/tau2/voice/__init__.py
+index e9c48ce..6a277ec 100644
+--- a/src/tau2/voice/__init__.py
++++ b/src/tau2/voice/__init__.py
+@@ -1,9 +1,21 @@
+ # Copyright Sierra
+-"""Voice processing module for TAU2."""
++"""Voice processing module for TAU2.
+ 
+-from . import synthesis, transcription
++Voice dependencies are optional.  Keep package import side-effect free so text-mode
++callers can import ``tau2`` without installing the voice extra.
++"""
++
++from importlib import import_module
+ 
+ __all__ = [
+     "synthesis",
+     "transcription",
+ ]
++
++
++def __getattr__(name: str):
++    if name in __all__:
++        module = import_module(f"{__name__}.{name}")
++        globals()[name] = module
++        return module
++    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+diff --git a/src/tau2/voice/utils/audio_preprocessing.py b/src/tau2/voice/utils/audio_preprocessing.py
+index 6f94ba0..5ccd49c 100644
+--- a/src/tau2/voice/utils/audio_preprocessing.py
++++ b/src/tau2/voice/utils/audio_preprocessing.py
+@@ -9,8 +9,6 @@ from typing import Literal, Optional
+ 
+ import numpy as np
+ from loguru import logger
+-from scipy.signal import resample_poly
+-
+ from tau2.data_model.audio import (
+     PCM_SAMPLE_RATE,
+     AudioData,
+@@ -342,6 +340,10 @@ def resample_audio(audio: AudioData, new_sample_rate: int) -> AudioData:
+             audio_path=None,
+         )
+ 
++    # scipy belongs to the optional voice dependency group. Import it only when
++    # resampling is requested so text-mode imports remain lightweight.
++    from scipy.signal import resample_poly
++
+     # Use scipy resample_poly for high-quality resampling with anti-aliasing
+     samples = np.frombuffer(audio.data, dtype=np.int16).astype(np.float64)
+ 

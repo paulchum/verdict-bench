@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://verdictlayer.dev/schemas/verdict-bench/source-lock-1.0.0.schema.json",
+  "title": "Verdict Bench Tau source lock",
+  "type": "object",
+  "required": ["schema_version", "repo", "ref", "commit", "patch_path", "patch_sha256", "source_urls"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "repo": {"type": "string", "format": "uri"},
+    "ref": {"const": "v1.0.0"},
+    "commit": {"const": "17e07b1da2bbc0cadfddeea36412686e0604127b"},
+    "patch_path": {"type": "string"},
+    "patch_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "source_urls": {"type": "object"}
+  },
+  "additionalProperties": false
+}

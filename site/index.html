@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Verdict Bench public decision trace explorer" />
+    <title>Verdict Bench Trace Explorer</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="brand-block">
+        <span class="brand-mark" aria-hidden="true">V</span>
+        <div>
+          <strong>Verdict Bench</strong>
+          <span>Verdict Layer research</span>
+        </div>
+      </div>
+      <div class="header-meta">
+        <span id="run-status" class="status-badge">Loading</span>
+        <a href="data.json">Public artifact JSON</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="evidence-banner" id="evidence-banner" aria-live="polite"></section>
+
+      <section class="metrics" aria-label="Run summary">
+        <div><span>Decisions</span><strong id="metric-decisions">0</strong></div>
+        <div><span>Gross cost</span><strong id="metric-cost">$0.00</strong></div>
+        <div><span>Total tokens</span><strong id="metric-tokens">0</strong></div>
+        <div><span>Refused keys</span><strong id="metric-refusals">0</strong></div>
+        <div><span>Meter</span><strong id="metric-meter">n/a</strong></div>
+      </section>
+
+      <section class="control-band" aria-label="Trace filters">
+        <label>
+          <span>Arm</span>
+          <select id="arm-filter"><option value="">All arms</option></select>
+        </label>
+        <label>
+          <span>Domain</span>
+          <select id="domain-filter"><option value="">All domains</option></select>
+        </label>
+        <label>
+          <span>Task</span>
+          <select id="task-filter"><option value="">All tasks</option></select>
+        </label>
+        <label class="search-control">
+          <span>Search</span>
+          <input id="trace-search" type="search" placeholder="Component, outcome, context" />
+        </label>
+        <button id="clear-filters" type="button">Clear filters</button>
+      </section>
+
+      <div class="workspace">
+        <section class="decision-pane" aria-labelledby="decision-heading">
+          <div class="pane-heading">
+            <div>
+              <h1 id="decision-heading">Decision traces</h1>
+              <p id="result-count">0 records</p>
+            </div>
+          </div>
+          <div id="decision-list" class="decision-list" role="listbox" tabindex="0"></div>
+        </section>
+
+        <section class="detail-pane" aria-labelledby="detail-title">
+          <div class="detail-header">
+            <div>
+              <span id="detail-context" class="eyebrow">Select a trace</span>
+              <h2 id="detail-title">Decision evidence</h2>
+            </div>
+            <div class="segmented" role="tablist" aria-label="Trace views">
+              <button type="button" role="tab" data-tab="decision" aria-selected="true">Decision</button>
+              <button type="button" role="tab" data-tab="calls" aria-selected="false">Calls</button>
+              <button type="button" role="tab" data-tab="certificate" aria-selected="false">Certificate</button>
+            </div>
+          </div>
+          <div id="detail-content" class="detail-content">
+            <p class="empty-state">Choose a decision to inspect generation, scoring, spend, and certificate evidence.</p>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer>
+      <span id="provenance-line">Source provenance loading</span>
+      <span>Pilot evidence is never a K-R1 adjudication.</span>
+    </footer>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

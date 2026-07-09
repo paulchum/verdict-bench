@@ -1,0 +1,16 @@
+{
+  "repo": "https://github.com/sierra-research/tau2-bench.git",
+  "ref": "v1.0.0",
+  "commit": "17e07b1da2bbc0cadfddeea36412686e0604127b",
+  "patch_path": "tau2-v1.0.0-text-only-imports.patch",
+  "patch_sha256": "6bbe50a97fc5c88951bf475a97893b93f1bc98f205483d3b4015b8513513ef61",
+  "source_urls": {
+    "tau2_bench": "https://github.com/sierra-research/tau2-bench",
+    "tau2_release": "https://github.com/sierra-research/tau2-bench/releases/tag/v1.0.0",
+    "tau2_cli_docs": "https://github.com/sierra-research/tau2-bench/blob/main/docs/cli-reference.md",
+    "tau2_submission": "https://github.com/sierra-research/tau2-bench/blob/main/docs/leaderboard-submission.md",
+    "openai_actor": "https://developers.openai.com/api/docs/models/gpt-5-mini",
+    "openai_proxy": "https://developers.openai.com/api/docs/models/gpt-5-nano"
+  },
+  "schema_version": "1.0.0"
+}

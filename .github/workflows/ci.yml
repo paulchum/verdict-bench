@@ -1,0 +1,52 @@
+name: T5-R public evidence
+
+on:
+  push:
+    paths:
+      - "benchmarks/t5r/**"
+      - "tests/test_t5r*"
+      - ".github/workflows/ci.yml"
+  pull_request:
+    paths:
+      - "benchmarks/t5r/**"
+      - "tests/test_t5r*"
+      - ".github/workflows/ci.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install test dependencies
+        run: python -m pip install jsonschema
+      - name: Install pinned Tau base dependencies
+        run: |
+          git clone --depth 1 --branch v1.0.0 https://github.com/sierra-research/tau2-bench.git .external/tau2-bench
+          python -m pip install -e .external/tau2-bench
+      - name: Verify source lock and text imports
+        run: python -m benchmarks.t5r doctor
+      - name: Run public suite
+        run: python -m unittest discover -s tests -v
+      - name: Check explorer JavaScript
+        run: node --check benchmarks/t5r/site/app.js
+      - name: Reproduce synthetic release
+        run: |
+          python -c "from pathlib import Path; from benchmarks.t5r.fixtures import generate_simulated_release; generate_simulated_release(Path('.external/tau2-bench'), Path('/tmp/sim-v0.1.0'))"
+          diff -ru benchmarks/t5r/public_artifacts/sim-v0.1.0 /tmp/sim-v0.1.0
+
+  secrets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v2
