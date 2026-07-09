@@ -391,12 +391,15 @@ h3 {
 
 .detail-grid span,
 .evidence-section th {
-  display: block;
-  margin-bottom: 5px;
   color: var(--muted);
   font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
+}
+
+.detail-grid span {
+  display: block;
+  margin-bottom: 5px;
 }
 
 .detail-grid strong {
