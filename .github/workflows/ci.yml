@@ -2,15 +2,8 @@ name: T5-R public evidence
 
 on:
   push:
-    paths:
-      - "benchmarks/t5r/**"
-      - "tests/test_t5r*"
-      - ".github/workflows/ci.yml"
   pull_request:
-    paths:
-      - "benchmarks/t5r/**"
-      - "tests/test_t5r*"
-      - ".github/workflows/ci.yml"
+  workflow_dispatch:
 
 permissions:
   contents: read
