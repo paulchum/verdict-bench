@@ -573,6 +573,11 @@ footer {
     border-right: 0;
   }
 
+  .metrics > div:last-child {
+    grid-column: 1 / -1;
+    border-right: 0;
+  }
+
   .control-band {
     grid-template-columns: 1fr 1fr;
   }
