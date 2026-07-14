@@ -1,0 +1,57 @@
+name: TRIDENT recovery release probe
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/trident-recovery-release-probe.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      GH_TOKEN: ${{ github.token }}
+      TAG: trident-recovery-probe-20260714
+    steps:
+      - name: Probe Google Drive and create files
+        shell: bash
+        run: |
+          set -euxo pipefail
+          python -m pip install --disable-pip-version-check gdown requests pillow
+          python - <<'PY' | tee probe.txt
+          import inspect
+          import requests
+          import gdown
+          folder = 'https://drive.google.com/drive/folders/1cPbeGjVLLOOP3mLL8Nj7tji0CU9-mxJD'
+          r = requests.get(folder, timeout=30, allow_redirects=True)
+          print('folder_status=', r.status_code)
+          print('folder_final_url=', r.url)
+          print('folder_content_type=', r.headers.get('content-type'))
+          print('folder_length=', len(r.content))
+          print('download_folder_signature=', inspect.signature(gdown.download_folder))
+          PY
+          gdown 'https://drive.google.com/uc?id=1AOLfG9F4iLIgipAfljyd5R2DQCA3V920' -O known.jpg
+          file known.jpg | tee -a probe.txt
+          sha256sum known.jpg | tee -a probe.txt
+          python - <<'PY' | tee -a probe.txt
+          from PIL import Image
+          im = Image.open('known.jpg')
+          print('opened_image=', im.format, im.size, im.mode)
+          im.verify()
+          print('verified=true')
+          PY
+      - name: Publish probe release assets
+        shell: bash
+        run: |
+          set -euxo pipefail
+          if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release upload "$TAG" probe.txt known.jpg --repo "$GITHUB_REPOSITORY" --clobber
+          else
+            gh release create "$TAG" probe.txt known.jpg --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --title "TRIDENT recovery probe" --notes "Temporary connectivity probe for recovering the public TRIDENT image folder."
+          fi
