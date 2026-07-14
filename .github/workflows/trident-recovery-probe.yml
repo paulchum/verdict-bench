@@ -1,0 +1,52 @@
+name: TRIDENT recovery probe
+
+on:
+  push:
+    branches:
+      - chatgpt-trident-recovery-20260714
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Probe Google Drive and gdown
+        shell: bash
+        run: |
+          set -euxo pipefail
+          python -m pip install --disable-pip-version-check gdown requests pillow
+          python - <<'PY'
+          import inspect
+          import requests
+          import gdown
+          folder = 'https://drive.google.com/drive/folders/1cPbeGjVLLOOP3mLL8Nj7tji0CU9-mxJD'
+          r = requests.get(folder, timeout=30, allow_redirects=True)
+          print('folder_status=', r.status_code)
+          print('folder_final_url=', r.url)
+          print('folder_content_type=', r.headers.get('content-type'))
+          print('folder_length=', len(r.content))
+          print('download_folder_signature=', inspect.signature(gdown.download_folder))
+          PY
+          gdown 'https://drive.google.com/uc?id=1AOLfG9F4iLIgipAfljyd5R2DQCA3V920' -O known.jpg
+          file known.jpg
+          sha256sum known.jpg
+          python - <<'PY'
+          from PIL import Image
+          im = Image.open('known.jpg')
+          im.verify()
+          print('verified_image=', im.format, im.size, im.mode)
+          PY
+          printf 'probe complete\n' > probe.txt
+      - name: Upload probe artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: trident-recovery-probe
+          path: |
+            known.jpg
+            probe.txt
+          if-no-files-found: error
+          retention-days: 1
